@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.nio.file.*;
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -89,16 +88,14 @@ public class ProductController {
     @GetMapping("/edit")
     public String showEditPage(Model model, @RequestParam int id) {
         try {
-            Products product = repo.findById(id).get();
-            
+            Products product = repo.findById(id).get();    
             ProductDto productDto = new ProductDto();
             productDto.setName(product.getName());
             productDto.setBrand(product.getBrand());
             productDto.setCategory(product.getCategory());
             productDto.setPrice(product.getPrice());
             productDto.setDescription(product.getDescription());
-            
-            // Add both product and productDto to model
+                        
             model.addAttribute("product", product);
             model.addAttribute("productDto", productDto);
             
@@ -132,9 +129,7 @@ public class ProductController {
                     Files.delete(oldImagePath);
                 } catch (Exception e) {
                     System.out.println("Exception caught: " + e.getMessage());
-                }
-
-                // Save the new file
+                }            
                 MultipartFile image = productDto.getImageFile();
                 Date createdAt = new Date();
                 String imageName = createdAt.getTime() + "_" + image.getOriginalFilename();
